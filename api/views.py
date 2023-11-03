@@ -13,7 +13,7 @@ def to_list(query):
 
     return list
 
-class CitysearchView(APIView):
+class SearchView(APIView):
     def get(self, request, query):
         list = []
         matches = Location.objects.filter(city__icontains=query)[:5]
@@ -23,10 +23,7 @@ class CitysearchView(APIView):
         matches = Location.objects.filter(country__icontains=query)[:5]
         list += to_list(matches)
         serializer = CitySearchSerializer(list, many=True)
-        print(serializer.data)
         return Response(serializer.data)
-        # return render(request,'search.html')
-
 
 
 class LocationSearchView(APIView):

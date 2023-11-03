@@ -11,7 +11,7 @@ def scrape_table_data(driver, number):
 
     results = []
 
-    for item_id in range(1, number):
+    for item_id in range(1, number+1):
         try:
             flag = driver.find_element(By.XPATH, f'//*[@id="content-wrapper"]/app-ranking/div/div/div[3]/div/table/tbody/tr[{item_id}]/td[2]/img').get_attribute('src')
             city = driver.find_element(By.XPATH, f'//*[@id="content-wrapper"]/app-ranking/div/div/div[3]/div/table/tbody/tr[{item_id}]/td[3]/a')

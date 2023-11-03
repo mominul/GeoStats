@@ -1,5 +1,5 @@
 import requests
-from search.models import Location
+from api.models import Location
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):

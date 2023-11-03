@@ -20,6 +20,6 @@ from app.views import search_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/search/', include('search.urls')),
+    path('api/', include('api.urls')),
     path('search/',search_view)
 ]
