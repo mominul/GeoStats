@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Search Results</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="display-4">City Search Results</h1>
+        
+        <form id="citySearchForm" method="GET" class="form-inline mt-4">
+            <input type="text" id="searchInput" name="query" class="form-control mr-2" placeholder="Enter a city name">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <div id="searchResults" class="mt-4">
+            <ul class="list-group">
+                {% for city in cities %}
+                <li class="list-group-item">{{ city.city }}, {{ city.country }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#citySearchForm').on('submit', function (e) {
+                e.preventDefault();
+                const query = $('#searchInput').val();
+                fetch(`http://127.0.0.1:8000/api/search/${query}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        displaySearchResults(data);
+                    });
+            });
+
+            // Add event listener to input element
+            const inputBox = document.getElementById("searchInput");
+            inputBox.addEventListener("input", function() {
+                const inputValue = inputBox.value.trim();
+                
+                // You can add your dynamic suggestions logic here
+                
+            });
+
+            function displaySearchResults(results) {
+                const resultsContainer = $('#searchResults ul');
+                resultsContainer.empty();
+                if (results.length === 0) {
+                    resultsContainer.html('<li class="list-group-item">No results found.</li>');
+                } else {
+                    results.forEach(result => {
+                        resultsContainer.append(`<li class="list-group-item">${result.city}, ${result.country}</li>`);
+                    });
+                }
+            }
+        });
+    </script>
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+</body>
+</html>
