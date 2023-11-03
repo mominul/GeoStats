@@ -4,6 +4,5 @@ from .models import Location
 class CitySearchSerializer(serializers.ModelSerializer):
      class Meta:
         model = Location
-        fields = ['city', 'country']
-
+        fields = ['location_id', 'country', 'city', 'name']
     
