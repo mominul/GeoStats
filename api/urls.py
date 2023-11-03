@@ -1,8 +1,11 @@
 from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 from .views import SearchView, LocationSearchView, AirQualityRankingView
 
 urlpatterns = [
-    path('search/<str:query>/', SearchView.as_view(), name='search_api'),
-    path('measurement/<str:query>/',LocationSearchView.as_view(), name='measurement_api'),
-    path('ranking/', AirQualityRankingView.as_view(), name='ranking-api'),
+    path('search/', SearchView.as_view(), name='search_api'),
+    path('measurement/',LocationSearchView.as_view(), name='measurement_api'),
+    path('ranking/', AirQualityRankingView.as_view(), name='ranking_api'),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
