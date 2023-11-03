@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import CitySearchSerializer, LocationIdSearchSerializer
+from .serializers import CitySearchSerializer, LocationIdSearchSerializer, AirQualityRankingSerializer
 from .models import Location
 import requests
 from rest_framework import status
+from .iqair import top_ranking_air
 
 def to_list(query):
     list = []
@@ -59,3 +60,19 @@ class LocationSearchView(APIView):
 
         serializer = LocationIdSearchSerializer(relevant_measurements)
         return Response(serializer.data)
+
+class AirQualityRankingView(APIView):
+    def get(self, request):
+        max = int(request.query_params.get("top"))
+
+        data = top_ranking_air(max)
+
+        polluted_serializer = AirQualityRankingSerializer(data["polluted"], many=True)
+        cleanest_serializer = AirQualityRankingSerializer(data["cleanest"], many=True)
+
+        response_data = {
+            "polluted": polluted_serializer.data,
+            "cleanest": cleanest_serializer.data
+        }
+
+        return Response(response_data)

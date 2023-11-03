@@ -60,5 +60,7 @@ def top_ranking_air(number):
     print(most_polluted)
     print(cleanest)
     driver.quit()
-
-top_ranking_air(10)
+    return {
+        "polluted": most_polluted,
+        "cleanest": cleanest,
+    }
