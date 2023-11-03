@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Search Results</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background: white;
+            background-size: 400% 400%;
+            color: black;
+        }
+
+        #navbar {
+            background: black;
+            color: white;
+            height: 80px; /* Adjust the height as needed */
+        }
+
+        .navbar-input {
+            padding: 11px 16px;
+            border-radius: 2px 0 0 2px;
+            border: 0 none;
+            outline: 0 none;
+            font-size: 15px;
+        }
+
+      
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <div class="container">
+            <div class="navbar-search col-sm-8 col-xs-10">
+                <form id="citySearchForm" method="GET">
+                    <div class="row">
+                        <div class="col-xs-11">
+                            <input class="form-control" type="search" placeholder="Enter a city name" name="query" id="searchInput">
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="submit" class="btn btn-warning">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div id="searchResultsList" class="mt-4">
+            <ul class="list-group">
+                {% for city in cities %}
+                <li class="list-group-item">{{ city.country }},{{ city.city }}, {{ city.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#citySearchForm').on('submit', function (e) {
+                e.preventDefault();
+                const query = $('#searchInput').val();
+                fetch(`http://127.0.0.1:8000/api/search/${query}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        displaySearchResults(data);
+                    });
+            });
+
+            // Add event listener to input element
+            const inputBox = document.getElementById("searchInput");
+            inputBox.addEventListener("input", function() {
+                const inputValue = inputBox.value.trim();
+
+                if (inputValue === "") {
+                    document.getElementById("searchResultsList").innerHTML = "";
+                    return;
+                }
+
+                fetch(`http://127.0.0.1:8000/api/search/${inputValue}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const searchResults = document.getElementById("searchResultsList");
+
+                        searchResults.innerHTML = "";
+
+                        data.slice(0, 5).forEach(result => {
+                            const cityText = result.city !== null ? `${result.city}, ` : '';
+                            const nameText = result.name !== null ? `${result.name}, ` : '';
+
+                            searchResults.innerHTML += `<li class="list-group-item">${result.country},${cityText},${nameText}</li>`;
+                        });
+                    });
+            });
+
+            function displaySearchResults(results) {
+                const searchResults = document.getElementById("searchResultsList");
+                searchResults.innerHTML = "";
+
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<li class="list-group-item">No results found.</li>';
+                } else {
+                    results.slice(0, 5).forEach(result => {
+                        const cityText = result.city !== null ? `${result.city}, ` : '';
+                        const nameText = result.name !== null ? `${result.name}, ` : '';
+
+                        searchResults.innerHTML += `<li class="list-group-item">${result.country},${cityText},${nameText}</li>`;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
