@@ -25,6 +25,7 @@ class CitysearchView(APIView):
         serializer = CitySearchSerializer(list, many=True)
         print(serializer.data)
         return Response(serializer.data)
+        # return render(request,'search.html')
 
 
 

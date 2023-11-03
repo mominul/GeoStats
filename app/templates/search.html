@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Search Results</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="display-4">City Search Results</h1>
+        
+        <form id="citySearchForm" method="GET" class="form-inline mt-4">
+            <input type="text" id="searchInput" name="query" class="form-control mr-2" placeholder="Enter a city name">
+            <div class="search-results" id="searchResults"></div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <div id="searchResultsList" class="mt-4">
+            <ul class="list-group">
+                {% for city in cities %}
+                <li class="list-group-item">{{ city.country }},{{ city.city }}, {{ city.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#citySearchForm').on('submit', function (e) {
+                e.preventDefault();
+                const query = $('#searchInput').val();
+                fetch(`http://127.0.0.1:8000/api/search/${query}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        displaySearchResults(data);
+                    });
+            });
+
+            // Add event listener to input element
+            const inputBox = document.getElementById("searchInput");
+            inputBox.addEventListener("input", function() {
+                const inputValue = inputBox.value.trim();
+
+                // Clear the search results
+                // document.getElementById("searchResults").innerHTML = "";
+
+                if (inputValue === "") {
+                    document.getElementById("searchResultsList").innerHTML = "";
+                    return;
+                }
+
+                // Implement your dynamic search logic here
+                // For example, you can make an API request to fetch and display search results
+                fetch(`http://127.0.0.1:8000/api/search/${inputValue}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const searchResults = document.getElementById("searchResultsList");
+
+                        // Clear previous search results
+                        searchResults.innerHTML = "";
+
+                        // Display new search results
+                        data.slice(0, 5).forEach(result => {
+                            const cityText = result.city !== null ? `${result.city}, ` : '';
+                            const nameText = result.name !== null ? `${result.name}, ` : '';
+
+
+                            searchResults.innerHTML += `<li class="list-group-item">${result.country},${cityText},${nameText}</li>`;
+
+                        });
+                    });
+            });
+
+            function displaySearchResults(results) {
+                const searchResults = document.getElementById("searchResultsList");
+                searchResults.innerHTML = "";
+
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<li class="list-group-item">No results found.</li>';
+                } else {
+                    results.slice(0,5).forEach(result => {
+                        const cityText = result.city !== null ? `${result.city}, ` : '';
+                        const nameText = result.name !== null ? `${result.name}, ` : '';
+
+                        searchResults.innerHTML += `<li class="list-group-item">${result.country},${cityText},${nameText}</li>`;
+
+                    });
+                }
+            }
+        });
+    </script>
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+</body>
+</html>
