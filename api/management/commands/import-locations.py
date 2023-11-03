@@ -1,5 +1,5 @@
 import requests
-from search.models import Location
+from api.models import Location
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
@@ -32,6 +32,7 @@ class Command(BaseCommand):
                     location = Location()
                     location.location_id = item["id"]
                     location.country = item["country"]
+                    location.code = item["country"]
                     location.city = item["city"]
                     location.name = item["name"]
                     location.save()

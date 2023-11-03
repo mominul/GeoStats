@@ -5,3 +5,4 @@ class Location(models.Model):
     country = models.TextField(max_length=255)
     city = models.TextField(max_length=255, null=True)
     name = models.TextField(max_length=255, null=True)
+    code = models.CharField(max_length=255, null=False)
