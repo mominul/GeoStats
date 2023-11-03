@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import CitySearchSerializer, LocationIdSearchSerializer, AirQualityRankingSerializer
+from .serializers import CitySearchSerializer, LocationIdSearchSerializer, AirQualityRankingSerializer, CountryStatsSerializer
 from .models import Location
 import requests
 from rest_framework import status
 from .iqair import top_ranking_air
+import requests
 
 def to_list(query):
     list = []
@@ -76,3 +77,31 @@ class AirQualityRankingView(APIView):
         }
 
         return Response(response_data)
+
+class CountryStatsView(APIView):
+    def get(self, request):
+        code = request.query_params.get('code')
+        response = requests.get(f'https://api.worldbank.org/v2/countries/{code}/indicators/NY.GDP.MKTP.CD?per_page=1&format=json').json()
+        gdp = response[1][0]["value"]
+
+        response = requests.get(f'https://api.worldbank.org/v2/countries/{code}/indicators/NY.GDP.PCAP.CD?per_page=1&format=json').json()
+        gdp_per_capita = response[1][0]["value"]
+
+        response = requests.get(f'https://api.worldbank.org/v2/countries/{code}/indicators/NY.GDP.MKTP.KD.ZG?per_page=1&format=json').json()
+        gdp_growth = response[1][0]["value"]
+
+        response = requests.get(f'https://api.worldbank.org/v2/countries/{code}/indicators/SP.POP.TOTL?per_page=1&format=json').json()
+        population = response[1][0]["value"]
+
+        response = requests.get(f'https://api.worldbank.org/v2/countries/{code}/indicators/SP.POP.GROW?per_page=1&format=json').json()
+        population_growth = response[1][0]["value"]
+
+        # serializer = CountryStatsSerializer(gdp, gdp_per_capita, gdp_growth, population, population_growth, many=True)
+        data = {
+            "gdp": gdp,
+            "gdp_per_capita": gdp_per_capita,
+            "gdp_growth": gdp_growth,
+            "population": population,
+            "population_growth": population_growth
+        }
+        return Response(data)

@@ -32,6 +32,7 @@ class Command(BaseCommand):
                     location = Location()
                     location.location_id = item["id"]
                     location.country = item["country"]
+                    location.code = item["country"]
                     location.city = item["city"]
                     location.name = item["name"]
                     location.save()

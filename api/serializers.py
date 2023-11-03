@@ -15,7 +15,14 @@ class LocationIdSearchSerializer(serializers.Serializer):
    humidity = serializers.DecimalField(max_digits=5, decimal_places=2)
 
 class AirQualityRankingSerializer(serializers.Serializer):
-    flag = serializers.CharField()
-    city = serializers.CharField()
-    score = serializers.CharField()
+   flag = serializers.CharField()
+   city = serializers.CharField()
+   score = serializers.CharField()
+
+class CountryStatsSerializer(serializers.Serializer):
+   gdp = serializers.IntegerField()
+   gdp_per_capita = serializers.IntegerField()
+   gdp_growth = serializers.IntegerField()
+   population = serializers.IntegerField()
+   population_growth = serializers.IntegerField()
     
