@@ -14,7 +14,8 @@ def to_list(query):
     return list
 
 class SearchView(APIView):
-    def get(self, request, query):
+    def get(self, request):
+        query = request.query_params.get("query")
         list = []
         matches = Location.objects.filter(city__icontains=query)[:5]
         list += to_list(matches)
@@ -27,9 +28,8 @@ class SearchView(APIView):
 
 
 class LocationSearchView(APIView):
-    def get(self, request, query):
-        
-        location_id = query
+    def get(self, request):
+        location_id = request.query_params.get("id")
         if not location_id:
             return Response({'error': 'Location ID (query parameter) is required.'}, status=status.HTTP_BAD_REQUEST)
 
