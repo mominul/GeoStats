@@ -1361,8 +1361,9 @@ fetch(topUrl)
                             const cityText = result.city !== null ? `${result.city}, ` : '';
                             const nameText = result.name !== null ? `${result.name}, ` : '';
 
-
-                            searchResults.innerHTML += `<li class="list-group-item">${result.country},${cityText},${nameText}</li>`;
+							console.log(result)
+                            // searchResults.innerHTML += `<a href=""><li class="list-group-item">${result.country},${cityText},${nameText}</li></a>`;
+							searchResults.innerHTML += `<a href="http://127.0.0.1:8000/info/${result.location_id}"><li class="list-group-item">${result.country},${cityText},${nameText}</li></a>`;
 
                         });
                     });

@@ -6,3 +6,7 @@ def search_view(request):
 
 def home_view(request):
     return render(request, 'index.html')
+
+
+def info_view(request, id):
+    return render(request, 'info.html',data={"id": id})   
