@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'rest_framework',
+    'drf_yasg',
     'api',
 ]
 
@@ -131,3 +132,14 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SWAGGER_SETTINGS = {
+    'DEFAULT_AUTO_SCHEMA_CLASS': 'drf_yasg.inspectors.SwaggerAutoSchema',
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic',
+        },
+    },
+    'USE_SESSION_AUTH': False,  # Set this to False if you're using token-based authentication
+    'APIS_SORTER': 'alpha',
+}
