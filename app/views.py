@@ -9,4 +9,4 @@ def home_view(request):
 
 
 def info_view(request, id):
-    return render(request, 'info.html',data={"id": id})   
+    return render(request, 'info.html', {"id": id})   
