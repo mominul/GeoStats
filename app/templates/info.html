@@ -55,6 +55,45 @@
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+		<style>
+			/* Good - 0-50 */
+#aqi-good {
+  background-color: #00e400; /* Green */
+  color: #000;
+}
+
+/* Moderate - 51-100 */
+#aqi-moderate {
+  background-color: #ffff00; /* Yellow */
+  color: #000;
+}
+
+/* Unhealthy for Sensitive Groups - 101-150 */
+#aqi-usg {
+  background-color: #ff7e00; /* Orange */
+  color: #fff;
+}
+
+/* Unhealthy - 151-200 */
+#aqi-unhealthy {
+  background-color: #ff0000; /* Red */
+  color: #fff;
+}
+
+/* Very Unhealthy - 201-300 */
+#aqi-very-unhealthy {
+  background-color: #8f3f97; /* Purple */
+  color: #fff;
+}
+
+/* Hazardous - 301 and higher */
+#aqi-hazardous {
+  background-color: #7e0023; /* Maroon */
+  color: #fff;
+}
+
+		</style>
+
     </head>
 	
 	<body>
@@ -84,7 +123,7 @@
 			            <!-- End Header Navigation -->
 
 			            <!-- Collect the nav links, forms, and other content for toggling -->
-			            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+			            {% comment %} <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
 			                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
 			                    <li class=" scroll active"><a href="#home">home</a></li>
 			                    <li class="scroll"><a href="#works">how it works</a></li>
@@ -93,7 +132,7 @@
 			                    <li class="scroll"><a href="#blog">blog</a></li>
 			                    <li class="scroll"><a href="#contact">contact</a></li>
 			                </ul><!--/.nav -->
-			            </div><!-- /.navbar-collapse -->
+			            </div><!-- /.navbar-collapse --> {% endcomment %}
 			        </div><!--/.container-->
 			    </nav><!--/nav-->
 			    <!-- End Navigation -->
@@ -108,7 +147,7 @@
         <section id="works" class="works">
 			<div class="container">
 				<div class="section-header" style=" margin-top: 10px; ">
-					<h2>Top 10 Cleanest Cities</h2>
+					<h2>{{name}}</h2>
 				
 				</div><!--/.section-header-->
 			</div><!--/.container-->
@@ -126,50 +165,50 @@
 			<div class="container">
                
 				<div class="statistics-counter"> 
-					<div class="col-md-12 col-sm-6" style="background-color: aquamarine;">
+					<div class="col-md-12 col-sm-6 aqic">
 						<div class="single-ststistics-box">
 							<div class="statistics-content">
-								<div class="counter"></div> <span>K+</span>
+								<div class="counter aqi">66</div>
 							</div><!--/.statistics-content-->
-							<h3>listings</h3>
+							<h3>AQI</h3>
 						</div><!--/.single-ststistics-box-->
 					</div><!--/.col-->
-					<div class="col-md-6 col-sm-6" style="background-color: rgb(255, 127, 251);">
+					<div class="col-md-6 col-sm-6">
 						<div class="single-ststistics-box">
 							<div class="statistics-content">
-								<div class="counter">40</div> <span>k+</span>
+								<div class="counter temperature">40</div> <span></span>
 							</div><!--/.statistics-content-->
 							<h3>temperature</h3>
 						</div><!--/.single-ststistics-box-->
 					</div><!--/.col-->
-					<div class="col-md-6 col-sm-6" style="background-color: rgb(255, 127, 251);">
+					<div class="col-md-6 col-sm-6">
 						<div class="single-ststistics-box">
 							<div class="statistics-content">
-								<div class="counter">65</div> <span>k+</span>
+								<div class="counter pm25">65</div> <span>µg/m³</span>
 							</div><!--/.statistics-content-->
 							<h3>PM25</h3>
 						</div><!--/.single-ststistics-box-->
 					</div><!--/.col-->
-					<div class="col-md-6 col-sm-6" style="background-color: rgb(255, 127, 251);">
+					<div class="col-md-6 col-sm-6">
 						<div class="single-ststistics-box">
 							<div class="statistics-content">
-								<div class="counter">50</div> <span>k+</span>
+								<div class="counter pm10">50</div> <span>µg/m³</span>
 							</div><!--/.statistics-content-->
 							<h3>PM10</h3>
 						</div><!--/.single-ststistics-box-->
 					</div><!--/.col-->
-                    <div class="col-md-6 col-sm-6" style="background-color: rgb(255, 127, 251);">
+                    <div class="col-md-6 col-sm-6">
 						<div class="single-ststistics-box">
 							<div class="statistics-content">
-								<div class="counter">50</div> <span>k+</span>
+								<div class="counter pressure">50</div> <span>millibar</span>
 							</div><!--/.statistics-content-->
 							<h3>Pressure</h3>
 						</div><!--/.single-ststistics-box-->
 					</div><!--/.col-->
-                    <div class="col-md-6 col-sm-6" style="background-color: rgb(255, 127, 251);">
+                    <div class="col-md-6 col-sm-6">
 						<div class="single-ststistics-box">
 							<div class="statistics-content">
-								<div class="counter">50</div> <span>k+</span>
+								<div class="counter humidity">50</div> <span>%</span>
 							</div><!--/.statistics-content-->
 							<h3>humidity</h3>
 						</div><!--/.single-ststistics-box-->
@@ -178,13 +217,62 @@
 				</div><!--/.statistics-counter-->	
 			</div><!--/.container-->
 
-		</section><!--/.counter-->	
+		</section><!--/.counter-->
+		<section id="statistics"  class="statistics">
+			<div class="container">
+               
+				<div class="statistics-counter"> 
+					<div class="col-md-12 col-sm-6 aqic">
+						<div class="single-ststistics-box">
+							<div class="statistics-content">
+								<div class="counter pop">66</div>
+							</div><!--/.statistics-content-->
+							<h3>Total Population</h3>
+						</div><!--/.single-ststistics-box-->
+					</div><!--/.col-->
+					<div class="col-md-6 col-sm-6">
+						<div class="single-ststistics-box">
+							<div class="statistics-content">
+								<div class="counter popg">40</div> <span>%</span>
+							</div><!--/.statistics-content-->
+							<h3>Population Growth</h3>
+						</div><!--/.single-ststistics-box-->
+					</div><!--/.col-->
+					<div class="col-md-6 col-sm-6">
+						<div class="single-ststistics-box">
+							<div class="statistics-content">
+								<div class="counter gdp">65</div> <span></span>
+							</div><!--/.statistics-content-->
+							<h3>Total GDP</h3>
+						</div><!--/.single-ststistics-box-->
+					</div><!--/.col-->
+					<div class="col-md-6 col-sm-6">
+						<div class="single-ststistics-box">
+							<div class="statistics-content">
+								<div class="counter gdpc">50</div> <span></span>
+							</div><!--/.statistics-content-->
+							<h3>GDP per capita</h3>
+						</div><!--/.single-ststistics-box-->
+					</div><!--/.col-->
+                    <div class="col-md-6 col-sm-6">
+						<div class="single-ststistics-box">
+							<div class="statistics-content">
+								<div class="counter gdpg">50</div> <span>%</span>
+							</div><!--/.statistics-content-->
+							<h3>GDP Growth</h3>
+						</div><!--/.single-ststistics-box-->
+					</div><!--/.col-->
+                   
+				</div><!--/.statistics-counter-->	
+			</div><!--/.container-->
+
+		</section><!--/.counter-->		
 		<!-- statistics end -->
 
 		
 
 		<!--footer start-->
-		<footer id="footer"  class="footer">
+		{% comment %} <footer id="footer"  class="footer">
 			<div class="container">
 				<div class="footer-menu">
 		           	<div class="row">
@@ -233,7 +321,7 @@
 				
 			</div><!--/.scroll-Top-->
 			
-        </footer><!--/.footer-->
+        </footer><!--/.footer--> {% endcomment %}
 		<!--footer end-->
 		
 		<!-- Include all js compiled plugins (below), or include individual files as needed -->
@@ -269,11 +357,69 @@
 
 const infoContainer = document.querySelector('.statistics-counter');
 const infoUrl = `http://127.0.0.1:8000/api/measurement/?id={{id}}`
+const stats = `http://127.0.0.1:8000/api/stats/?code={{code}}`
 
 fetch(infoUrl)
   .then(response => response.json())
   .then(jsonData => {
     console.log(jsonData);
+	var aqi = document.querySelector('.aqi');
+	var temp = document.querySelector('.temperature');
+	var pm25 = document.querySelector('.pm25');
+	var pm10 = document.querySelector('.pm10');
+	var pressure = document.querySelector('.pressure');
+	var humidity = document.querySelector('.humidity');
+
+	aqi.innerHTML = jsonData.aqi;
+	var aqic = document.querySelector('.aqic');
+	if (jsonData.aqi < 50) {
+		aqic.id = "aqi-good";
+	} else if (jsonData.aqi < 100) {
+		aqic.id = "aqi-moderate";
+	} else if (jsonData.aqi < 150) {
+		aqic.id = "aqi-usg";
+	} else if (jsonData.aqi < 200) {
+		aqic.id = "aqi-unhealthy";
+	} else if (jsonData.aqi < 300) {
+		aqic.id = "aqi-very-unhealthy";
+	} else {
+		aqic.id = "aqi-hazardous";
+	}
+	temp.innerHTML = jsonData.temperature;
+	pm25.innerHTML = jsonData.pm25;
+	pm10.innerHTML = jsonData.pm10;
+	pressure.innerHTML = jsonData.pressure;
+	humidity.innerHTML = jsonData.humidity;
+
+    // jsonData.forEach(item => {
+    //   listItem.innerHTML = `
+    //   <div class="statistics-content">
+	// 	<div class="counter">${item.aqi}</div> <span>k+</span>
+	// 	</div><!--/.statistics-content-->
+	// 						<h3>listing categories</h3>
+    //   `;
+    //   cleanestCitiesContainer.appendChild(listItem);
+    // });
+  })
+  .catch(error => {
+    console.error("Error fetching data:", error);
+  });
+
+  fetch(stats)
+  .then(response => response.json())
+  .then(jsonData => {
+    console.log(jsonData);
+	var gdp = document.querySelector('.gdp');
+	var gdpg = document.querySelector('.gdpg');
+	var gdpc = document.querySelector('.gdpc');
+	var pop = document.querySelector('.pop');
+	var popg = document.querySelector('.popg');
+
+	gdp.innerHTML = jsonData.gdp;
+	gdpc.innerHTML = jsonData.gdp_per_capita;
+	gdpg.innerHTML = jsonData.gdp_growth;
+	pop.innerHTML = jsonData.population;
+	popg.innerHTML = jsonData.population_growth;
 
     // jsonData.forEach(item => {
     //   listItem.innerHTML = `
