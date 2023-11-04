@@ -7,6 +7,7 @@ import requests
 from rest_framework import status
 from .iqair import top_ranking_air
 import requests
+import aqi
 
 def to_list(query):
     list = []
@@ -58,6 +59,14 @@ class LocationSearchView(APIView):
             parameter = measurement['parameter']
             if parameter in relevant_measurements:
                 relevant_measurements[parameter] = measurement['value']
+        
+        aqi_value = aqi.to_aqi([
+            (aqi.POLLUTANT_PM25, relevant_measurements["pm25"]),
+            (aqi.POLLUTANT_PM10, relevant_measurements["pm10"]),
+            # (aqi.POLLUTANT_O3_8H, '0.087')
+        ])
+
+        relevant_measurements['aqi'] = aqi_value
 
         serializer = LocationIdSearchSerializer(relevant_measurements)
         return Response(serializer.data)

@@ -13,6 +13,7 @@ class LocationIdSearchSerializer(serializers.Serializer):
    pm10 = serializers.DecimalField(max_digits=6, decimal_places=2)
    pressure = serializers.DecimalField(max_digits=7, decimal_places=2)
    humidity = serializers.DecimalField(max_digits=5, decimal_places=2)
+   aqi = serializers.IntegerField()
 
 class AirQualityRankingSerializer(serializers.Serializer):
    flag = serializers.CharField()
