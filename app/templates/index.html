@@ -199,7 +199,7 @@
 		<!--welcome-hero end -->
 
 		<!--list-topics start -->
-		<section id="list-topics" class="list-topics">
+		<!-- <section id="list-topics" class="list-topics">
 			<div class="container">
 				<div class="list-topics-content">
 					<ul>
@@ -211,8 +211,8 @@
 								<h2><a href="#">resturent</a></h2>
 								<p>150 listings</p>
 							</div>
-						</li>
-						<li>
+						</li> -->
+						<!-- <li>
 							<div class="single-list-topics-content">
 								<div class="single-list-topics-icon">
 									<i class="flaticon-travel"></i>
@@ -292,25 +292,25 @@
 								<h2><a href="#">resturent</a></h2>
 								<p>150 listings</p>
 							</div>
-						</li>
+						</li> 
 					</ul>
 				</div>
-			</div><!--/.container-->
+			</div>
 
-		</section><!--/.list-topics-->
+		</section>  -->
 		<!--list-topics end-->
 
 		<!--works start -->
 		<section id="works" class="works">
 			<div class="container">
 				<div class="section-header">
-					<h2>how it works</h2>
-					<p>Learn More about how our website works</p>
+					<h2>Top 10 Polluted Cities</h2>
+				
 				</div><!--/.section-header-->
 				<div class="works-content">
-					<ddiv class="list-topics-content">
+					<div class="list-topics-content">
 						<ul>
-							<li>
+							<!-- <li>
 								<div class="single-list-topics-content">
 									<div class="single-list-topics-icon">
 										<i class="flaticon-restaurant"></i>
@@ -399,14 +399,32 @@
 									<h2><a href="#">resturent</a></h2>
 									<p>150 listings</p>
 								</div>
-							</li>
+							</li> -->
 						</ul>
 					</div>
 				</div>
 			</div><!--/.container-->
 		
 		</section><!--/.works-->
+
 		<!--works end -->
+
+		<section id="works" class="works">
+			<div class="container">
+				<div class="section-header">
+					<h2>Top 10 Cleanest Cities</h2>
+				
+				</div><!--/.section-header-->
+				<div class="works-content">
+					<div class="list-topics-content02">
+						<ul>
+							
+						</ul>
+					</div>
+				</div>
+			</div><!--/.container-->
+		
+		</section>
 
 		<!--explore start -->
 		<section id="explore" class="explore">
@@ -1245,11 +1263,69 @@
 
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
+
+const pollutedCitiesContainer = document.querySelector('.list-topics-content ul');
+const apiUrl = `http://127.0.0.1:8000/api/ranking/?top=10`
+
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(jsonData => {
+    const pollutedCities = jsonData.polluted;
+
+    pollutedCities.forEach(item => {
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `
+        <div class="single-list-topics-content">
+          <div class="single-list-topics-icon">
+            <img src="${item.flag}" alt="Flag">
+          </div>
+          <h4>${item.city}</h4>
+          <p>Score: ${item.score}</p>
+        </div>
+      `;
+      pollutedCitiesContainer.appendChild(listItem);
+    });
+  })
+  .catch(error => {
+    console.error("Error fetching data:", error);
+  });
+
+const cleanestCitiesContainer = document.querySelector('.list-topics-content02 ul');
+const topUrl = `http://127.0.0.1:8000/api/ranking/?top=10`
+
+fetch(topUrl)
+  .then(response => response.json())
+  .then(jsonData => {
+    const cleanCities = jsonData.cleanest;
+
+    cleanCities.forEach(item => {
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `
+        <div class="single-list-topics-content02">
+          <div class="single-list-topics-icon02">
+            <img src="${item.flag}" alt="Flag">
+          </div>
+          <h4>${item.city}</h4>
+          <p>Score: ${item.score}</p>
+        </div>
+      `;
+      cleanestCitiesContainer.appendChild(listItem);
+    });
+  })
+  .catch(error => {
+    console.error("Error fetching data:", error);
+  });
+
+
+
         $(document).ready(function () {
             $('#citySearchForm').on('submit', function (e) {
                 e.preventDefault();
                 const query = $('#searchInput').val();
-                fetch(`http://127.0.0.1:8000/api/search/${query}/`)
+				
+
+                fetch(`http://127.0.0.1:8000/api/search/?query=${query}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
@@ -1272,7 +1348,7 @@
 
                 // Implement your dynamic search logic here
                 // For example, you can make an API request to fetch and display search results
-                fetch(`http://127.0.0.1:8000/api/search/${inputValue}/`)
+                fetch(`http://127.0.0.1:8000/api/search/?query=${inputValue}`)
                     .then(response => response.json())
                     .then(data => {
                         const searchResults = document.getElementById("searchResultsList");
@@ -1285,8 +1361,9 @@
                             const cityText = result.city !== null ? `${result.city}, ` : '';
                             const nameText = result.name !== null ? `${result.name}, ` : '';
 
-
-                            searchResults.innerHTML += `<li class="list-group-item">${result.country},${cityText},${nameText}</li>`;
+							console.log(result)
+                            // searchResults.innerHTML += `<a href=""><li class="list-group-item">${result.country},${cityText},${nameText}</li></a>`;
+							searchResults.innerHTML += `<a href="http://127.0.0.1:8000/info/${result.location_id}"><li class="list-group-item">${result.country},${cityText},${nameText}</li></a>`;
 
                         });
                     });
